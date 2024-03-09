@@ -8,10 +8,41 @@
     flex-basis: 24%;
     margin: 0 2rem;
     padding: 1rem;
-    border: 1px dotted goldenrod;
+    border: 1px dashed orange;
 }
 
 .orders {
     font-size: 20rem;
 }
 
+.order-list {
+    list-style-type: none; /* Removes default list styling */
+    padding: 0; /* Resets default padding */
+    margin: 0; /* Resets default margin */
+}
+
+.order-item {
+    font-size: 14px; /* Adjusts font size for compact display */
+    margin-bottom: 5px; /* Adds space between items */
+    background-color: #f7f7f7;
+    border-bottom: 1px dashed orange; 
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+}
+li[id^="employee"] {
+    background-color: #f7f7f7; /* Example: Very light gray background */
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border-bottom: 1px solid red;
+    cursor: pointer; /* Indicates the element is clickable */;
+}
+.products[data-productid] {
+    /* Your styles here */
+    background-color: #f7f7f7; /* Example: Very light gray background */
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border-bottom: 1px solid red;
+    
+    cursor: pointer; /* Indicates the element is clickable */
+}

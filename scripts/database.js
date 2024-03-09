@@ -1,3 +1,5 @@
+// database.js
+
 const database = {
     employees: [
         {id: 1,  name: "Alphonse Meron",   email: "ameron0@mashable.com",       hourlyRate: 11.50},
@@ -36,7 +38,7 @@ const database = {
         {id: 9,  productId: 3,  employeeId: 2,  timestamp: 1612538112396},
         {id: 10, productId: 9,  employeeId: 6,  timestamp: 1612438112396},
         {id: 11, productId: 4,  employeeId: 1,  timestamp: 1612338112396},
-        {id: 12, productId: 6,  employeeId: 11, timestamp: 1612238112396},
+        {id: 12, productId: 6,  employeeId: 3,  timestamp: 1612238112396}, // ! changed employeeid from 11 to 3 !
         {id: 13, productId: 10, employeeId: 8,  timestamp: 1630538112396},
         {id: 14, productId: 9,  employeeId: 9,  timestamp: 1612738112396},
         {id: 15, productId: 3,  employeeId: 3,  timestamp: 1612938112396},

@@ -14,7 +14,7 @@ document.addEventListener("click", (clickEvent) => {
         const productId = itemClicked.getAttribute('data-productId');
         const product = products.find(prod => prod.id === parseInt(productId));
 
-        window.alert(`A ${product.name} costs ${product.price}`)
+        window.alert(`A ${product.name} costs $${product.price.toFixed(2)}`)
     }
 
 });
