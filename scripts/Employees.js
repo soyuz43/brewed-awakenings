@@ -9,25 +9,39 @@ export const Employees = () => {
     let html = "<ul>"
 
     for (const employee of employees) {
-        // Adding an id attribute for each employee that can be used in the event listener
-        html += `<li id="employee--${employee.id}">${employee.name}</li>`
+        
+        html += `<li id="employee--${employee.id}">${employee.name}</li>`  // listening to the interpolation w/in html
     }
 
     html += "</ul>"
     return html
 }
 
-// Function to calculate and show the number of products sold by an employee
+
 const showEmployeeSales = (employeeId) => {
-    const sales = orders.filter(order => order.employeeId === parseInt(employeeId))
-    const employee = employees.find(emp => emp.id === parseInt(employeeId))
+    
+    const sales = [];
+        for (const order of orders) {
+            if (order.employeeId === parseInt(employeeId)) {                                                     // * find & show the number of products sold by an employee
+            sales.push(order);
+            }
+    }      
+    let employee;
+        for (const emp of employees) {
+            if (emp.id === parseInt(employeeId)) {
+                employee = emp;
+                break;                                                                                              // * break the loop once the employee is found
+            }
+    }
+    
+
     alert(`${employee.name} has sold ${sales.length} product(s).`)
 }
 
-// Listening for clicks on the document and checking if the clicked element is an employee
+
 document.addEventListener("click", event => {
-    if (event.target.id.startsWith("employee")) {
+    if (event.target.id.startsWith("employee")) {                                                       
         const [, employeeId] = event.target.id.split("--")
-        showEmployeeSales(employeeId)
+        showEmployeeSales(employeeId)                                                       // call still in global scope :)
     }
 })

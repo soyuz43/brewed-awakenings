@@ -12,19 +12,16 @@
 }
 
 
-
-
-
 .order-item {
     font-size: 10px; 
-    margin-bottom: 5px; /* Adds space between items, though might be redundant with grid gap */
+    margin-bottom: 5px; 
     background-color: #f7f7f7;
     border-bottom: 1px dashed orange;
     cursor: pointer; 
 }
 
 li[id^="employee"] {
-    background-color: #f7f7f7; /*  Very light gray background */
+    background-color: #f7f7f7; 
     padding: 8px;
     margin: 5px 0;
     border-radius: 5px;
@@ -37,7 +34,6 @@ li[id^="employee"] {
     cursor: pointer; 
 }
 .products[data-productid] {
-    /* Your styles here */
     background-color: #f7f7f7; 
     padding: 8px;
     margin: 5px 0;
