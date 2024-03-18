@@ -12,8 +12,9 @@ const applicationHTML = `
 <article class="details">
     <section class="detail--column list details__employees">
         <h2>Employees</h2>
-        ${Employees()}
+        ${Employees()}  <!-- Employees list is rendered here -->
     </section>
+
     <section class="detail--column list details__products">
         <h2>Products</h2>
         ${Products()}
@@ -22,6 +23,7 @@ const applicationHTML = `
 
 <article class="orders">
     <h2>Orders</h2>
+
     ${Orders()}
 </article>
 `
