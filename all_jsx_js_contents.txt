@@ -1,0 +1,277 @@
+```
+// database.js
+
+const database = {
+    employees: [
+        {id: 1,  name: "Alphonse Meron",   email: "ameron0@mashable.com",       hourlyRate: 11.50},
+        {id: 2,  name: "Damara Pentecust", email: "dpentecust1@apache.org",     hourlyRate: 10.75},
+        {id: 3,  name: "Anna Bowton",      email: "abowton2@wisc.edu",          hourlyRate: 12.30},
+        {id: 4,  name: "Hunfredo Drynan",  email: "hdrynan3@bizjournals.com",   hourlyRate: 12.00},
+        {id: 5,  name: "Elmira Bick",      email: "ebick4@biblegateway.com",    hourlyRate: 12.30},
+        {id: 6,  name: "Bernie Dreger",    email: "bdreger5@zimbio.com",        hourlyRate: 11.50},
+        {id: 7,  name: "Rolando Gault",    email: "rgault6@google.com",         hourlyRate: 11.80},
+        {id: 8,  name: "Tiffanie Tubby",   email: "ttubby7@intel.com",          hourlyRate: 21.00},
+        {id: 9,  name: "Tomlin Cutill",    email: "tcutill8@marketwatch.com",   hourlyRate: 12.10},
+        {id: 10, name: "Arv Biddle",       email: "abiddle9@cafepress.com",     hourlyRate: 13.00} 
+    ],
+   
+    products: [
+        {id: 1,  name: "Large Coffee", price: 6.00},
+        {id: 2,  name: "Latte", price: 8.99},
+        {id: 3,  name: "Blueberry Muffin", price: 9.49},
+        {id: 4,  name: "Scone", price: 7.56},
+        {id: 5,  name: "Bran Muffin", price: 9.10},
+        {id: 6,  name: "Mocha Latte", price: 12.99},
+        {id: 7,  name: "Espresso", price: 11.80},
+        {id: 8,  name: "Americano", price: 11.00},
+        {id: 9,  name: "Cubano", price: 14.99},
+        {id: 10, name: "Cappucino", price: 12.49}
+    ],
+    orders: [
+        {id: 1,  productId: 10, employeeId: 5,  timestamp: 1613538111396},
+        {id: 2,  productId: 5,  employeeId: 1,  timestamp: 1613038102396},
+        {id: 3,  productId: 2,  employeeId: 7,  timestamp: 1612837112396},
+        {id: 4,  productId: 8,  employeeId: 5,  timestamp: 1612836112396},
+        {id: 5,  productId: 9,  employeeId: 7,  timestamp: 1612735112396},
+        {id: 6,  productId: 4,  employeeId: 1,  timestamp: 1614528112396},
+        {id: 7,  productId: 5,  employeeId: 8,  timestamp: 1614598112396},
+        {id: 8,  productId: 2,  employeeId: 9,  timestamp: 1614630112396},
+        {id: 9,  productId: 3,  employeeId: 2,  timestamp: 1612538112396},
+        {id: 10, productId: 9,  employeeId: 6,  timestamp: 1612438112396},
+        {id: 11, productId: 4,  employeeId: 1,  timestamp: 1612338112396},
+        {id: 12, productId: 6,  employeeId: 3,  timestamp: 1612238112396}, // ! changed employeeid from 11 to 3 !
+        {id: 13, productId: 10, employeeId: 8,  timestamp: 1630538112396},
+        {id: 14, productId: 9,  employeeId: 9,  timestamp: 1612738112396},
+        {id: 15, productId: 3,  employeeId: 3,  timestamp: 1612938112396},
+        {id: 16, productId: 4,  employeeId: 7,  timestamp: 1612638112396},
+        {id: 17, productId: 4,  employeeId: 10, timestamp: 1612638112396}
+    ]
+}
+
+const getEmployees = () => [...database.employees];
+const getProducts = () => [...database.products];
+const getOrders = () => [...database.orders];
+
+export { getEmployees, getProducts, getOrders };```
+```
+import { getProducts, getEmployees, getOrders } from "./database.js"
+
+// Get copies of state for use in this module
+const products = getProducts();
+const employees = getEmployees();
+const orders = getOrders();
+
+
+const findProduct = (order, allProducts) => {
+    for (const product of allProducts) {
+        if (product.id === order.productId) {
+            return product;
+        }
+    }
+    
+};
+
+
+
+const findEmployee = (order, allEmployees) => {
+    for (const employee of allEmployees) {
+        if (employee.id === order.employeeId) {
+            return employee;
+        }
+    }
+    
+};
+
+
+
+const orderDetailsGenerated = {};                                               // TO-DO I believe this needs refactor flag is possibly not needed!!!!!
+
+export const Orders = () => {   
+    let html = "<ul class='order-list'>";
+
+    for (const order of orders) {
+    
+        const employee = findEmployee(order, employees); 
+        const product = findProduct(order, products);
+
+       
+        orderDetailsGenerated[order.id] = orderDetailsGenerated[order.id] ?? false;         // start filling that flag obj
+
+        // * Order # diplays the number from the database directly on the DOM!
+        html += `
+            <li id="order--${order.id}"
+             class='order-item'>
+             Order #${order.id}                                                
+            <div id="orderDetails--${order.id}" 
+             class="order-details"> 
+            </div>
+            </li>`;
+    }
+
+    html += "</ul>";
+    return html;
+};
+
+document.addEventListener("click", event => {
+    if (event.target.id.startsWith("order--")) {
+        const orderId = parseInt(event.target.id.split("--")[1]);                                           // * split the string element into an array, -- is delimiter (!slicker parseint)
+        const detailsElement = document.querySelector(`#orderDetails--${orderId}`);
+        
+        
+        if (!orderDetailsGenerated[orderId]) {
+            detailsElement.innerHTML = generateOrderDetails(orderId);    
+            orderDetailsGenerated[orderId] = true; //                                                      // * now updating flg to prevent re-load on each click.
+        }
+        // ! if clicked goes to block, then back to none, the colon means that instead of updating true/false instead block/none are used 
+        detailsElement.style.display = detailsElement.style.display === "none" ? "block" : "none"; 
+    }
+});
+
+const generateOrderDetails = (orderId) => {                            // TO-DO: Answer "so is this a good way to do it or should I load it into the DOM and set it to none?""
+    // Find the order in the orders array
+    const order = orders.find(orders => orders.id === orderId);
+
+    const product = findProduct(order, products);
+    const employee = findEmployee(order, employees);
+    
+    
+    const date = new Date(order.timestamp).toLocaleDateString("en-US");         // * Format the date
+
+    return `<p> A ${product.name} sold by ${employee.name}, on ${date}</p>`;
+}
+```
+```
+import { getProducts } from "./database.js"
+
+
+
+
+const products  = getProducts()
+
+document.addEventListener("click", (clickEvent) => {
+    const itemClicked  = clickEvent.target;
+
+      
+    if (itemClicked.classList.contains('products')) {
+          
+        const productId  = itemClicked.getAttribute('data-productId');
+        const product    = products.find(prod => prod.id === parseInt(productId)); // find the name prop by keyid
+
+        window.alert(`A ${product.name} costs $${product.price.toFixed(2)}`)  // formatting
+    }
+
+});
+
+
+
+
+
+export const Products = () => {
+    let html  = `<ul>`
+
+    for (const product of products) {
+        html += `<li class="products"
+                 data-productId  = "${product.id}"
+                 >${product.name}</li>`
+        }
+
+    html  += "</ul>"
+
+    return html
+}
+
+
+```
+```
+// Employees.js
+
+import { getEmployees, getOrders } from "./database.js"
+
+const employees = getEmployees()
+const orders = getOrders()
+
+export const Employees = () => {
+    let html = "<ul>"
+
+    for (const employee of employees) {
+        
+        html += `<li id="employee--${employee.id}">${employee.name}</li>`  // listening to the interpolation w/in html
+    }
+
+    html += "</ul>"
+    return html
+}
+
+
+const showEmployeeSales = (employeeId) => {
+    
+    const sales = [];
+        for (const order of orders) {
+            if (order.employeeId === parseInt(employeeId)) {                                                     // * find & show the number of products sold by an employee
+            sales.push(order);
+            }
+    }      
+    let employee;
+        for (const emp of employees) {
+            if (emp.id === parseInt(employeeId)) {
+                employee = emp;
+                break;                                                                                              // * break the loop once the employee is found
+            }
+    }
+    
+
+    alert(`${employee.name} has sold ${sales.length} product(s).`)
+}
+
+
+document.addEventListener("click", event => {
+    if (event.target.id.startsWith("employee")) {                                                       
+        const [, employeeId] = event.target.id.split("--")
+        showEmployeeSales(employeeId)                                                       // call still in global scope :)
+    }
+})
+```
+---
+Title: .
+Description:
+(Generate a brief description about the purpose and main functions of the project based on the provided source code.)
+
+Contents:
+- Table of Contents generated from modules and files mentioned in the code.
+
+Installation:
+1. (List installation steps if needed, including dependencies and library requirements)
+2.
+3.
+
+Usage:
+1. (Describe how to use the project based on the provided source code)
+2.
+3.
+
+Contributing:
+1. (Include guidelines for contributing to the project, such as submitting issues or pull requests)
+2.
+
+License: (Insert License Information Here)
+Version: (Insert Project Version Here)
+Date: 2024-04-13
+
+replace the placeholders based on the source code provided.
+
+
+Create a README in Markdown format that aligns with the simplicity of the described project, adhering to GitHub documentation standards. The README should concisely cover:
+
+Sections to potentially omit based on content availability:
+- **License**: Only include a license section if the source code specifies licensing information.
+- **Acknowledgments**: Include acknowledgments only if they are explicitly mentioned in the project documentation or source code.
+
+Ensure all content is structured using appropriate GitHub Markdown syntax:
+- Use headings correctly (e.g.,  for Level 1,  for Level 2).
+- Use numbered lists for instructions and bullet points for lists of features or requirements.
+- Implement internal links to navigate to different sections within the document efficiently.
+
+The language should remain professional yet accessible, aiming for clarity and brevity to match the project's complexity. Avoid overcomplicating the documentation to ensure it is as straightforward as the project it describes.
+
+---
+

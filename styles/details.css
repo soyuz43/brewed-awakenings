@@ -1,37 +1,4 @@
-.details {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
 
-.detail--column {
-    flex-basis: 24%;
-    margin: 0 2rem;
-    padding: 1rem;
-    border: 1px dashed orange;
-}
-
-
-.order-item {
-    font-size: 10px; 
-    margin-bottom: 5px; 
-    background-color: #f7f7f7;
-    border-bottom: 1px dashed orange;
-    cursor: pointer; 
-}
-
-li[id^="employee"] {
-    background-color: #f7f7f7; 
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 5px;
-    border-bottom: 1px solid red;
-    border-top: 1px solid red;
-    border-left: 1px solid blueviolet;
-    border-right: 1px solid blueviolet;
-
-    
-    cursor: pointer; 
 }
 .products[data-productid] {
     background-color: #f7f7f7; 
